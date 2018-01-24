@@ -184,7 +184,7 @@ Array<Object> getTransactionList(Frame frame)
 ```java
 void appendTransactionList(Frame frame)
 integer parseAnyFrame(Page page) // nb transactions
-Array<integer> parsePage(Page page, string url, integer processIndex) // [pid, nb transactions]
+Array<integer> parsePage(Page page, string url, integer processIndex) // [nb transactions, pid]
 Page prepareNewPage(Promise<Page> pagePromise)
 Array<Page> preparePageList(Browser browser)
 void run(browserPromise) throws Error("network")

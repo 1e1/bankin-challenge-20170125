@@ -156,7 +156,7 @@ async function parseAnyFrame(page) {
  * @param {Page} page - the page container
  * @param {string} url - the targeted URL
  * @param {integer} processIndex - the processIndex
- * @return {Array<integer>} 0: processIndex, 1:length of the transaction list found on the page, -1 is an error
+ * @return {Array<integer>} 0:length of the transaction list found on the page (-1 is an error), 1: processIndex
  */
 async function parsePage(page, url, processIndex) {
     let nbRetry = PAGE_CONFIG.nbPageReload;
