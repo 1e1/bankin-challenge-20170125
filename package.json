@@ -1,0 +1,14 @@
+{
+  "name": "banko",
+  "version": "1.0.0",
+  "description": "My first NodeJS project for the Bankin's Challenge \\o/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "1e1",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^1.0"
+  }
+}
