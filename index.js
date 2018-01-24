@@ -267,7 +267,7 @@ async function run(browserPromise) {
     } while(pageSize === nbTransactionOnTheLastPage && urlParameterStartMax > urlParameterStart);
     
     // last startParserAt(page) is useless
-    parserPromises.slice(processIndex, 1);
+    delete parserPromises[processIndex];
 
     // shutdown
     await Promise.all(parserPromises);
