@@ -68,9 +68,7 @@ async function getTransactionList(frame) {
  *
  * -------------------------------------------------------------------------- */
 
-
 String.prototype.format = function(opts) { return this.replace(/\{([^\}]+)\}/g, (match, name) => opts[name]) }
-
 
 /* -------------------------------------------------------------------------- */
 
@@ -159,6 +157,9 @@ async function parseAnyFrame(page) {
  * @return {Array<integer>} 0:length of the transaction list found on the page (-1 is an error), 1: processIndex
  */
 async function parsePage(page, url, processIndex) {
+    const reloadButtonSelector = PAGE_CONFIG.reloadButtonSelector;
+    const mutableSelector = PAGE_CONFIG.mutableSelector;
+
     let nbRetry = PAGE_CONFIG.nbPageReload;
     let nbTransaction = -1; // -1 = error while requesting the URL
 
@@ -167,10 +168,10 @@ async function parsePage(page, url, processIndex) {
         nbRetry = -1;
 
         // click on the reload button if exsits
-        page.click(PAGE_CONFIG.reloadButtonSelector).catch(()=>null);
+        page.click(reloadButtonSelector).catch(()=>null);
         
         // trigger on %mutableSelector%
-        await page.waitForSelector(PAGE_CONFIG.mutableSelector, WAIT_FOR_SELECTOR_OPTIONS).catch(()=>null);
+        await page.waitForSelector(mutableSelector, WAIT_FOR_SELECTOR_OPTIONS).catch(()=>null);
 
         // extract the transaction list
         nbTransaction = await parseAnyFrame(page);
@@ -280,7 +281,6 @@ async function run(browserPromise) {
 
     await browser.close();
 }
-
 
 
 /* -------------------------------------------------------------------------- */
