@@ -42,10 +42,10 @@ async function getTransactionList(frame) {
             const amountAndCurrency = tdList.pop().textContent;
             const [, leftCurrency, amount, rightCurrency] = amountAndCurrency.match(amountAndCurrencyPattern);
             const transaction = {
-                currency: (leftCurrency + rightCurrency).trim(),
-                amount: amount.trim(),
-                transaction: tdList.pop().textContent.trim(),
-                account: tdList.pop().textContent.trim(),
+                Currency: (leftCurrency + rightCurrency).trim(),
+                Amount: amount.trim(),
+                Transaction: tdList.pop().textContent.trim(),
+                Account: tdList.pop().textContent.trim(),
             }
 
             // you can add checkings to filter the transaction
