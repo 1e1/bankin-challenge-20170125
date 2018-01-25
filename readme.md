@@ -164,7 +164,7 @@ do
     page = any terminated page
     success = page scrapped successfully
     restartParser(page, ƒgetNewURL)
-until success
+until no success
 
 // shutdown
 wait all running pages
