@@ -119,7 +119,6 @@ A complete benchmark on jsPerf tells [`Array.concat` is faster than `Array.push.
     - `scriptTimeout : 30000` is the maximum milliseconds allowed for onload execution script
     - `mutableSelector : 'tr, iframe'` is the elements that the scrapper observes
     - `reloadButtonSelector : '#btnGenerate'` is the selector of the reload button
-- `NB_PARALLEL_PROCESS = 32` is the number of parallel process (I set 8x the number of cores)
 
 - `async function getTransactionList(frame) { ... }` is the function which extracts the transaction list
 

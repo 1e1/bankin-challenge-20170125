@@ -1,5 +1,4 @@
 // 1e1 - 2.71828183E0+bankin-challenge at gmail.com
-/* mutable configuration */
 
 const URL = 'https://web.bankin.com/challenge/index.html?start={start}'; // the entry point
 
@@ -16,8 +15,6 @@ const PAGE_CONFIG = {
     mutableSelector: 'tr, iframe',          // selector of the elements that the scrapper is looking for
     reloadButtonSelector: '#btnGenerate',   // selector of the reload button
 }
-
-const NB_PARALLEL_PROCESS = 32; // number of parallel process
 
 
 /* --------------------------------------------------------------------------
@@ -73,6 +70,9 @@ String.prototype.format = function(opts) { return this.replace(/\{([^\}]+)\}/g, 
 /* -------------------------------------------------------------------------- */
 
 
+const PUPPETEER = require('puppeteer');
+const OS = require('os');
+
 const PUPPETEER_ARGS = {
     ignoreHTTPSErrors: true,
     headless: true,
@@ -93,9 +93,6 @@ const PUPPETEER_ARGS = {
     ],
 };
 
-const PUPPETEER = require('puppeteer');
-const BROWSER_PROMISE = PUPPETEER.launch(PUPPETEER_ARGS);
-
 const GOTO_OPTIONS = { 
     waitUntil: 'domcontentloaded', 
     timeout: PAGE_CONFIG.loadTimeout,
@@ -104,6 +101,10 @@ const GOTO_OPTIONS = {
 const WAIT_FOR_SELECTOR_OPTIONS = {
     timeout: PAGE_CONFIG.scriptTimeout,
 }
+
+const BROWSER_PROMISE = PUPPETEER.launch(PUPPETEER_ARGS);
+const NB_PARALLEL_PROCESS_PER_CORE = 8;
+const NB_PARALLEL_PROCESS = OS.cpus().length * NB_PARALLEL_PROCESS_PER_CORE;
 
 var TRANSACTION_LIST = []; // the final result
 
@@ -296,5 +297,4 @@ async function run(browserPromise) {
     // be carefull it floods the JSON response
     //console.debug(TRANSACTION_LIST.length + " transactions");
 })()
-
-// this is sparta! 
+// this is sparta
