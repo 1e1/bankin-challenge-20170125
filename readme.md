@@ -105,6 +105,11 @@ But there is no evalution on a transformation of the results.
 ##### append transaction list: concat VS push.apply()
 A complete benchmark on jsPerf tells [`Array.concat` is faster than `Array.push.apply`](https://jsperf.com/array-prototype-push-apply-vs-concat/13).
 
+#### stop
+`IS_RUNNING` is turned off if:
+- the start parameter is over its max
+- if a transaction list is less than the usual length (defined as `step` in `URL_PARAMETER_START`)
+
 
 ### configuration
 
@@ -129,8 +134,8 @@ A complete benchmark on jsPerf tells [`Array.concat` is faster than `Array.push.
 Simple algo:
 
 ```
-parsePage(page, url)
---------------------
+parse(page, url)
+----------------
 goto url (reload x%nbPageReload% if there is a network error)
     
 click on %reloadButtonSelector% if exists
@@ -143,6 +148,10 @@ foreach frame of page do
 done
 
 append the lastTransactionList to the globalTransactionList
+
+if no transactionList
+then stop
+end
 ```
 
 
@@ -150,23 +159,16 @@ Parallelism algo:
 
 ```
 run(browser)
--------------------
-pages = create NB_PARALLEL_PROCESS containers
+------------
+crawlers = []
 
-// first load
-foreach pages do
-    startParser(page, ƒgetNewURL);
+repeat NB_PARALLEL_PROCESS
+do
+    crawlers.push(crawl())
 done
 
-// reload scrapper who terminated
-do
-    page = any terminated page
-    success = page scrapped successfully
-    restartParser(page, ƒgetNewURL)
-until no success
-
 // shutdown
-wait all running pages
+wait all running crawlers
 ```
 
 
@@ -182,10 +184,10 @@ Array<Object> getTransactionList(Frame frame)
 
 ```java
 void appendTransactionList(Frame frame)
-integer parseAnyFrame(Page page) // nb transactions
-Array<integer> parsePage(Page page, string url, integer processIndex) // [nb transactions, pid]
-Page prepareNewPage(Promise<Page> pagePromise)
-Array<Page> preparePageList(Browser browser)
+void parseAnyFrame(Page page)
+void crawl(browser)(Browser page) throws Error("network")
+string getUrl()
+Page newPage(Browser browser)
 void run(browserPromise) throws Error("network")
 ```
 
